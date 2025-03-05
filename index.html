@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页资源压缩工具</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>网页资源压缩工具</h1>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="image">图片压缩</button>
+            <button class="tab-btn" data-tab="audio">音频压缩</button>
+        </div>
+
+        <div class="upload-container" id="dropZone">
+            <div class="upload-area">
+                <svg class="upload-icon" width="50" height="50" viewBox="0 0 24 24">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+                <p>拖拽文件到这里 或 点击上传</p>
+                <input type="file" id="fileInput" multiple hidden>
+            </div>
+        </div>
+
+        <!-- 图片处理区域 -->
+        <div class="media-container" id="imageContainer">
+            <div class="thumbnail-container">
+                <div class="thumbnail-scroll" id="imageThumbnailList">
+                    <!-- 图片缩略图将在这里动态添加 -->
+                </div>
+                <div class="thumbnail-footer">
+                    <div class="compression-info">
+                        <div class="info-item">
+                            <span class="info-label">原始大小：</span>
+                            <span id="imageOriginalSize">0 KB</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">压缩后：</span>
+                            <span id="imageCompressedSize">0 KB</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">压缩率：</span>
+                            <span id="imageCompressionRatio">0%</span>
+                        </div>
+                    </div>
+                    <div class="export-container">
+                        <button id="exportAllImages" class="secondary-button" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" style="margin-right: 8px;">
+                                <path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                            导出全部
+                        </button>
+                        <button id="clearImageList" class="secondary-button">清空列表</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 音频处理区域 -->
+        <div class="media-container" id="audioContainer" style="display: none;">
+            <div class="audio-list-container">
+                <div class="audio-scroll">
+                    <div class="audio-list" id="audioList">
+                        <!-- 音频项将在这里动态添加 -->
+                    </div>
+                </div>
+                <div class="audio-footer">
+                    <div class="compression-info">
+                        <div class="info-item">
+                            <span class="info-label">原始大小：</span>
+                            <span id="audioOriginalSize">0 KB</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">压缩后：</span>
+                            <span id="audioCompressedSize">0 KB</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">压缩率：</span>
+                            <span id="audioCompressionRatio">0%</span>
+                        </div>
+                    </div>
+                    <div class="export-container">
+                        <button id="exportAllAudios" class="secondary-button" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" style="margin-right: 8px;">
+                                <path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                            导出全部
+                        </button>
+                        <button id="clearAudioList" class="secondary-button">清空列表</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings">
+            <div class="image-settings" id="imageSettings">
+                <h3>图片压缩设置</h3>
+                <div class="quality-control">
+                    <label>压缩质量：</label>
+                    <div class="quality-options">
+                        <label class="radio-label">
+                            <input type="radio" name="quality" value="0.8">
+                            <span>高质量</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="quality" value="0.6" checked>
+                            <span>中等质量</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="quality" value="0.4">
+                            <span>低质量</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="quality" value="custom">
+                            <span>自定义</span>
+                        </label>
+                    </div>
+                    <div class="custom-quality" style="display: none;">
+                        <div class="quality-input-group">
+                            <input type="number" id="customQuality" min="1" max="100" value="60">
+                            <span class="quality-unit">%</span>
+                        </div>
+                        <div class="quality-hint">1-100之间的数值，数值越大质量越高</div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button id="startCompress" class="primary-button" disabled>开始压缩</button>
+                </div>
+            </div>
+
+            <div class="audio-settings" id="audioSettings" style="display: none;">
+                <h3>音频压缩设置</h3>
+                <div class="format-info">
+                    <p>支持的输入格式：WAV, MP3, OGG, WebM, AAC, MP4</p>
+                    <p>输出格式：MP3</p>
+                </div>
+                <div class="bitrate-control">
+                    <label>压缩比特率：</label>
+                    <select id="audioBitrate">
+                        <option value="320">320 kbps - 原始音质</option>
+                        <option value="256">256 kbps - 超高音质</option>
+                        <option value="192">192 kbps - 高音质</option>
+                        <option value="160">160 kbps - 中高音质</option>
+                        <option value="128" selected>128 kbps - 标准音质</option>
+                        <option value="96">96 kbps - 中等音质</option>
+                        <option value="64">64 kbps - 低音质</option>
+                        <option value="48">48 kbps - 超低音质</option>
+                        <option value="32">32 kbps - 最低音质</option>
+                    </select>
+                </div>
+                <div class="action-buttons">
+                    <button id="startAudioCompress" class="primary-button" disabled>开始压缩</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/browser-image-compression.js"></script>
+    <script src="scripts/jszip.min.js"></script>
+    <script src="scripts/lame.min.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html> 

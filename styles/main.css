@@ -1,0 +1,576 @@
+:root {
+    --primary-color: #007AFF;
+    --background-color: #f5f5f7;
+    --border-color: #d2d2d7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: #1d1d1f;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.upload-container {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 2px dashed var(--border-color);
+}
+
+.upload-area {
+    text-align: center;
+    cursor: pointer;
+}
+
+.upload-icon {
+    fill: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.settings {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.quality-control, .bitrate-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.quality-options {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.radio-label span {
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.preview-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.file-list {
+    margin-top: 1rem;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.file-info {
+    flex: 1;
+}
+
+.progress-bar {
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+}
+
+.progress {
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 2px;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.action-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.primary-button {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.primary-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.secondary-button {
+    background: white;
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.file-item {
+    position: relative;
+    padding-right: 100px;
+}
+
+.file-status {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.thumbnail-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.thumbnail-scroll {
+    display: flex;
+    gap: 1rem;
+    min-height: 100px;
+}
+
+.thumbnail-item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--background-color);
+}
+
+.thumbnail-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-thumbnail {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    padding: 0;
+    line-height: 1;
+}
+
+.remove-thumbnail:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.thumbnail-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #666;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.thumbnail-status {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.download-button {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 0;
+}
+
+.download-button:hover {
+    background: #0056b3;
+}
+
+.thumbnail-footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.compression-info {
+    display: flex;
+    gap: 2rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-label {
+    color: #666;
+}
+
+.export-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.secondary-button svg {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.secondary-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #ccc;
+    color: #666;
+}
+
+.custom-quality {
+    margin-top: 1rem;
+    margin-left: 5.5rem;
+}
+
+.quality-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quality-input-group input {
+    width: 80px;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.quality-unit {
+    color: #666;
+}
+
+.quality-hint {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* 媒体容器切换 */
+.media-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* 音频列表样式 */
+.audio-list-container {
+    min-height: 194px; /* 增加60px */
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.audio-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px; /* 为滚动条留出空间 */
+    min-height: 180px; /* 增加60px */
+    display: flex;
+    align-items: center;
+}
+
+.audio-list {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    min-height: 180px; /* 增加60px */
+}
+
+.audio-item {
+    flex: 0 0 200px; /* 固定宽度 */
+    height: 200px; /* 增加60px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: var(--background-color);
+    border-radius: 8px;
+    position: relative;
+    justify-content: space-between; /* 更好的内容分布 */
+}
+
+.audio-info {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 12px; /* 统一间距 */
+}
+
+.audio-name {
+    font-weight: 500;
+    margin-bottom: 12px; /* 统一间距 */
+    /* 文件名过长时显示省略号 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+}
+
+.audio-status {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 12px; /* 统一间距 */
+}
+
+.remove-audio {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.remove-audio:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.play-audio {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin: 4px auto;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.play-audio svg {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+}
+
+.play-audio:hover {
+    background: #0051d4;
+    transform: scale(1.05);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.play-audio:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.audio-size {
+    font-size: 0.9rem;
+    color: #666;
+    gap: 12px; /* 统一间距 */
+    display: flex;
+    flex-direction: column;
+}
+
+.size-info {
+    display: flex;
+    align-items: center;
+}
+
+.size-label {
+    min-width: 85px;
+    text-align: right;
+    margin-right: 4px;
+}
+
+.compressed-size {
+    color: var(--primary-color);
+}
+
+.audio-footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 空列表提示 */
+.audio-list:empty::before {
+    content: '拖拽音频文件到这里 或 点击上传';
+    color: #666;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.bitrate-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    position: relative; /* 为下拉框定位提供参考 */
+}
+
+.bitrate-control label {
+    color: #666;
+    min-width: 84px; /* 固定标签宽度，确保对齐 */
+}
+
+.bitrate-control select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    width: 200px; /* 固定下拉框宽度 */
+    position: relative; /* 确保下拉框在正确的位置 */
+    z-index: 1; /* 确保下拉列表显示在其他元素之上 */
+}
+
+/* 美化下拉框样式 */
+.bitrate-control select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+}
+
+/* 下拉框选项样式 */
+.bitrate-control select option {
+    padding: 8px;
+    font-size: 14px;
+}
+
+/* 确保下拉列表与选择框对齐 */
+.bitrate-control select option:checked {
+    background: var(--primary-color);
+    color: white;
+} 
