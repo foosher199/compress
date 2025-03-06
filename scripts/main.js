@@ -1,4 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // 初始化语言设置
+    updatePageLanguage();
+    updateLanguageButtons();
+
+    // 添加语言按钮激活状态更新
+    function updateLanguageButtons() {
+        const currentLang = getCurrentLang();
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === currentLang);
+        });
+    }
+
+    // 监听语言切换按钮点击
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            updateLanguageButtons();
+        });
+    });
+
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
     const imageContainer = document.getElementById('imageContainer');
@@ -156,12 +175,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function createThumbnail(file) {
         const thumbnailItem = document.createElement('div');
         thumbnailItem.className = 'thumbnail-item';
-
-        // 添加占位符
         thumbnailItem.innerHTML = `
-            <div class="thumbnail-placeholder">加载中...</div>
-            <div class="thumbnail-status">等待处理</div>
-            <button class="remove-thumbnail" title="移除">×</button>
+            <div class="thumbnail-placeholder" data-i18n="loading">${getText('loading')}</div>
+            <div class="thumbnail-status" data-i18n="waitingProcess">${getText('waitingProcess')}</div>
+            <button class="remove-thumbnail" title="${getText('clearList')}">×</button>
         `;
 
         // 创建缩略图
@@ -207,26 +224,26 @@ document.addEventListener('DOMContentLoaded', function() {
     function createAudioItem(file) {
         const audioItem = document.createElement('div');
         audioItem.className = 'audio-item';
-
+        
         // 创建音频项的HTML结构
         audioItem.innerHTML = `
-            <button class="remove-audio" title="移除">
+            <button class="remove-audio" title="${getText('clearList')}">
                 <svg width="12" height="12" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
                 </svg>
             </button>
             <div class="audio-info">
                 <div class="audio-name">${file.name}</div>
-                <div class="audio-status">等待处理</div>
+                <div class="audio-status" data-i18n="waitingProcess">${getText('waitingProcess')}</div>
                 <div class="audio-size">
                     <div class="size-info">
-                        <span class="size-label">原始大小：</span>
+                        <span class="size-label" data-i18n="originalSize">${getText('originalSize')}</span>
                         <span>${formatFileSize(file.size)}</span>
                     </div>
                     <div class="compressed-size"></div>
                 </div>
             </div>
-            <button class="play-audio" title="播放预览">
+            <button class="play-audio" title="${getText('playPreview')}">
                 <svg width="16" height="16" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M8 5v14l11-7z"/>
                 </svg>
@@ -444,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const statusEl = audioItem.querySelector('.audio-status');
     
         try {
-            statusEl.textContent = '压缩中...';
+            statusEl.textContent = getText('compressing');
             
             // 读取音频文件
             const arrayBuffer = await originalFile.arrayBuffer();
@@ -527,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function() {
             audioFiles.compressed.set(originalFile.name, compressedFile);
     
             // 更新UI
-            statusEl.textContent = '压缩完成';
+            statusEl.textContent = getText('compressed');
             statusEl.style.color = 'var(--primary-color)';
     
             // 显示压缩后的大小和压缩率
@@ -536,11 +553,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const ratio = Math.round((1 - compressedFile.size / originalFile.size) * 100);
             compressedSizeEl.innerHTML = `
                 <div class="size-info">
-                    <span class="size-label">压缩后：</span>
+                    <span class="size-label">${getText('compressedSize')}</span>
                     <span>${formatFileSize(compressedFile.size)}</span>
                 </div>
                 <div class="size-info">
-                    <span class="size-label">压缩率：</span>
+                    <span class="size-label">${getText('compressionRatio')}</span>
                     <span>${ratio}%</span>
                 </div>
             `;
@@ -569,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             console.error('音频压缩失败:', error);
-            statusEl.textContent = '压缩失败';
+            statusEl.textContent = getText('compressionFailed');
             statusEl.style.color = 'red';
             fileInfo.compressionFailed = true;
             // 压缩失败时使用原始文件
@@ -579,12 +596,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const compressedSizeEl = audioItem.querySelector('.compressed-size');
             compressedSizeEl.innerHTML = `
                 <div class="size-info">
-                    <span class="size-label">使用原文件：</span>
+                    <span class="size-label">${getText('useOriginal')}</span>
                     <span>${formatFileSize(originalFile.size)}</span>
                 </div>
                 <div class="size-info">
-                    <span class="size-label">状态：</span>
-                    <span>压缩失败</span>
+                    <span class="size-label">${getText('status')}</span>
+                    <span>${getText('compressionFailed')}</span>
                 </div>
             `;
             
@@ -762,4 +779,35 @@ document.addEventListener('DOMContentLoaded', function() {
     startAudioCompressBtn.disabled = true;
     exportAllImagesBtn.disabled = true;
     exportAllAudiosBtn.disabled = true;
+
+    // 语言切换功能
+    const langSelector = document.getElementById('langSelector');
+    const langDropdown = document.getElementById('langDropdown');
+    
+    // 切换下拉菜单
+    langSelector.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langSelector.classList.toggle('active');
+        langDropdown.classList.toggle('show');
+    });
+    
+    // 点击其他地方关闭下拉菜单
+    document.addEventListener('click', () => {
+        langSelector.classList.remove('active');
+        langDropdown.classList.remove('show');
+    });
+    
+    // 语言选择
+    document.querySelectorAll('.lang-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const lang = option.dataset.lang;
+            setLanguage(lang);
+            langSelector.classList.remove('active');
+            langDropdown.classList.remove('show');
+        });
+    });
+    
+    // 初始化语言UI
+    updateLanguageUI();
 }); 

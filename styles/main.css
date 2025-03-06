@@ -459,9 +459,9 @@ select {
 }
 
 .play-audio {
-    width: 36px;
-    height: 36px;
-    flex: 0 0 36px;
+    width: 28.8px;
+    height: 28.8px;
+    flex: 0 0 28.8px;
     border-radius: 50%;
     border: none;
     background: var(--primary-color);
@@ -474,12 +474,13 @@ select {
     margin: 4px auto;
     padding: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-10px);
 }
 
 .play-audio svg {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 20px;
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
 }
 
 .play-audio:hover {
@@ -526,13 +527,13 @@ select {
 }
 
 /* 空列表提示 */
-.audio-list:empty::before {
-    content: '拖拽音频文件到这里 或 点击上传';
+/* .audio-list:empty::before {
+    content: attr(data-empty-text);
     color: #666;
     width: 100%;
     text-align: center;
     font-size: 0.9rem;
-}
+} */
 
 .bitrate-control {
     display: flex;
@@ -573,4 +574,98 @@ select {
 .bitrate-control select option:checked {
     background: var(--primary-color);
     color: white;
+}
+
+/* 替换原来的语言切换按钮样式 */
+.language-switch {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+}
+
+.lang-selector {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    min-width: 100px;
+}
+
+.lang-selector:hover {
+    background: var(--background-color);
+    border-color: var(--primary-color);
+}
+
+.current-lang {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.arrow-icon {
+    margin-left: auto;
+    opacity: 0.5;
+    transition: transform 0.3s ease;
+}
+
+.lang-selector.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.5rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 140px;
+    display: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.lang-dropdown.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.lang-option {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+.lang-option:hover {
+    background-color: var(--background-color);
+}
+
+.lang-option.active {
+    background-color: rgba(0, 122, 255, 0.1);
+}
+
+.lang-name {
+    font-weight: 500;
+    color: #333;
+}
+
+.lang-native {
+    font-size: 0.8rem;
+    color: #666;
 } 
